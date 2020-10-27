@@ -3,8 +3,8 @@
 * 프록시 동작 파일
 */
 require('lib.php');
-require('class.MProxy.php');
-$mp = new MProxy();
+require('Mproxy.php');
+$mp = new Mproxy();
 
 //-- 타임아웃 설정
 if(isset($_REQUEST['CONN_TIMEOUT']) && is_numeric($_REQUEST['CONN_TIMEOUT'])){

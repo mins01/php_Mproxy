@@ -10,14 +10,13 @@ $url = "http://wwwdev.mins01.com/web_work/php/class_MProxy/proxy.php?URL=http%3A
 ob_implicit_flush(1); // 바로 출력하도록 설정(출력 버퍼가 동작 안한다)
 ob_end_clean(); //출력 버퍼를 비운다.(이걸 안하면 이전 출력 버퍼가 데이터를 버퍼처리 하고있다.)
 
-require('class.MProxy.php');
-$mp = new MProxy();
-
+require('Mproxy.php');
+$mp = new Mproxy();
 
 $headers=getallheaders();
-if($headers['Content-Type']=='application/x-www-form-urlencoded'){
+if(!isset($headers['Content-Type']) || $headers['Content-Type']=='application/x-www-form-urlencoded'){
 	$postRaw = http_build_query($mp->stripslashesForArray($_POST));
-}if($headers['Content-Type']=='multipart/form-data-encoded'){ //불완전, 현재 파일 업로드 지워안됨.
+}else if($headers['Content-Type']=='multipart/form-data-encoded'){ //불완전, 현재 파일 업로드 지워안됨.
 	$postRaw = http_build_query($mp->stripslashesForArray($_POST));
 }else{ //그외의 경우 RAW POST값을 바로 사용한다.
 	$postRaw = $mp->getRequestBody();

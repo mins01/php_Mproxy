@@ -1,6 +1,6 @@
 <?
 $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/target.php';
-require('class.MProxy.php');
+require('Mproxy.php');
 
 $mproxy = new Mproxy();
 
