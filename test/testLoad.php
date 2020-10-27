@@ -10,7 +10,7 @@ $url = "http://wwwdev.mins01.com/web_work/php/class_MProxy/proxy.php?URL=http%3A
 ob_implicit_flush(1); // 바로 출력하도록 설정(출력 버퍼가 동작 안한다)
 ob_end_clean(); //출력 버퍼를 비운다.(이걸 안하면 이전 출력 버퍼가 데이터를 버퍼처리 하고있다.)
 
-require('Mproxy.php');
+require('../src/Mproxy.php');
 $mp = new Mproxy();
 
 $headers=getallheaders();

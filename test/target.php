@@ -2,7 +2,7 @@
 /**
 * 테스트용 타겟 파일
 */
-require('lib.php');
+require('../src/lib_Mproxy.php');
 
 //sleep(1);
 setcookie('TestTime','한글 "-" '.date('Y-m-d H:i:s'));

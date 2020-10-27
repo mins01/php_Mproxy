@@ -6,8 +6,8 @@
 * PHP5 이상 지원
 */
 class Mproxy{
-	var $conn_timeout = 5; //연결시간 타임아웃
-	var $exec_timeout = 5; //실행시간 타임아웃
+	public $conn_timeout = 5; //연결시간 타임아웃
+	public $exec_timeout = 5; //실행시간 타임아웃
 
 	/**
 	* 생성자
@@ -97,11 +97,11 @@ class Mproxy{
 					preg_match('/(Location: )(.*)/i',$res['header'],$matches);
 					if(isset($matches[2])){
 						$url = trim($matches[2]);
-						$res =  $this->get($url,$cookieRaw,$headers, $opts);	
+						$res =  $this->get($url,$cookieRaw,$headers, $opts);
 					}
-					
+
 				}
-			
+
 			break;
 			case 'POST':
 				$res = $this->post($url,$postRaw,$cookieRaw,$headers, $opts);
@@ -114,7 +114,7 @@ class Mproxy{
 			break;
 		}
 		return $this->printResult($res);
-		
+
 	}
 	/**
 	* CURL을 사용해서 페이지를 긁어온다.
@@ -177,22 +177,22 @@ class Mproxy{
 		curl_setopt($conn, CURLOPT_CONNECTTIMEOUT, $conn_timeout); //서버 접속시 timeout 설정
 		curl_setopt($conn, CURLOPT_TIMEOUT, $exec_timeout); //서버 접속시 timeout 설정
 		//curl_setopt($conn, CURLOPT_TIMEOUT, $timeout); // curl exec 실행시간 timeout 설정
-		
+
 		if(isset($opts[CURLOPT_PUT]) && $opts[CURLOPT_PUT] == true){ // PUT으로 동작시
 			if(isset($postRaw[0])){
 				$len = strlen($postRaw);
 				// $fp = fopen('php://temp/maxmemory:'.$len, 'w');
 				$fp = tmpfile();
-				if (!$fp) 
+				if (!$fp)
 				{
 				    die('could not open temp memory data');
 				}
 				fwrite($fp, $postRaw);
-				fseek($fp, 0); 
+				fseek($fp, 0);
 
 				curl_setopt($conn, CURLOPT_BINARYTRANSFER, true);
 				curl_setopt($conn, CURLOPT_INFILE, $fp); // file pointer
-				curl_setopt($conn, CURLOPT_INFILESIZE, $len);   
+				curl_setopt($conn, CURLOPT_INFILESIZE, $len);
 			}
 
 			/** use a max of 256KB of RAM before going to disk */
