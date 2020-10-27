@@ -151,7 +151,12 @@ class Mproxy{
 
 		foreach($headers as $k=>$v){
 			//if($k=='Host'){continue;}
-			$c_headers[] = $k.': '.$v;
+			if(is_numeric($k)){ //일반 배열일 경우 값을 그대로 사용
+				$c_headers[] = $v;
+			}else{	// 연관 배열일 경우 key 값을 같이 사용
+				$c_headers[] = $k.': '.$v;
+			}
+
 			//Accept-Encoding , Accept-Language 빼는걸 생각해보자
 		}
 		$c_headers[] = 'X-Forwarded-For: '.(isset($_SERVER['REMOTE_ADDR'][0])?$_SERVER['REMOTE_ADDR']:'CLI'); //요청자IP
