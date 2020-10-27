@@ -4,6 +4,7 @@
 * proxy.php 에서 사용법을 확인바람.
 * 이 클래스 파일은 수정하지 말고, proxy.php에서 설정 수정으로 사용하라!
 * PHP5 이상 지원
+* https://github.com/mins01/php_Mproxy
 */
 class Mproxy{
 	public $conn_timeout = 5; //연결시간 타임아웃
