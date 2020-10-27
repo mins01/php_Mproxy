@@ -1,5 +1,6 @@
 <?
-$url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/target.php';
+$url1 = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/test/target.php';
+$url2 = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/test/targetXml.php';
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -24,7 +25,11 @@ $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/target
 </head>
 <body>
 	<form action="../src/proxy.php" method="get" target="ifm0" onsubmit="onsubmitEvent(this)">
-		<input type="text" name="URL" value="<?=htmlspecialchars($url)?>">
+		<!-- <input type="text" name="URL" value="<?=htmlspecialchars($url)?>"> -->
+		<select  name="URL">
+			<option value="<?=htmlspecialchars($url1)?>"><?=htmlspecialchars($url1)?></option>
+			<option value="<?=htmlspecialchars($url2)?>"><?=htmlspecialchars($url2)?></option>
+		</select>
 		<input type="text" name="val01" value="값01">
 		<input type="text" name="val02" value="값02">
 		<input type="text" name="val03" value="값03">
@@ -36,7 +41,11 @@ $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/target
 	</form>
 	<hr>
 	<form action="../src/proxy.php" method="post" target="ifm0" onsubmit="onsubmitEvent(this)">
-		<input type="text" name="URL" value="<?=htmlspecialchars($url)?>">
+		<!-- <input type="text" name="URL" value="<?=htmlspecialchars($url)?>"> -->
+		<select  name="URL">
+			<option value="<?=htmlspecialchars($url1)?>"><?=htmlspecialchars($url1)?></option>
+			<option value="<?=htmlspecialchars($url2)?>"><?=htmlspecialchars($url2)?></option>
+		</select>
 		<input type="text" name="val01" value="값01">
 		<input type="text" name="val02" value="값02">
 		<input type="text" name="val03" value="값03">
@@ -60,7 +69,11 @@ $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/target
 		<div style="clear:both"></div>
 	</div>
 	<hr>
-	<a href="test.put.php">test.put.php</a>
-	<a href="testLoad.php">testLoad.php</a>
+	<ul>
+		<li><a href="test.put.php">test.put.php</a>(get, post, put 동작 테스트용)</li>
+		<li><a href="test.custom_headers.php">test.custom_headers.php</a> (req headers 테스트용)</li>
+		<li><a href="testLoad.php">testLoad.php</a></li>
+		<li><a href="targetXml.php">targetXml.php</a></li>
+	</ul>
 </body>
 </html>
