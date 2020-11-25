@@ -154,6 +154,7 @@ $url2 = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/test/
 				console.log("success");
 				// console.log(rData)
 				let x = document.ifm0
+				x.document.body.innerHTML = '';
 				x.document.write(rData)
 
 			})

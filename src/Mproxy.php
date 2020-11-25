@@ -95,10 +95,6 @@ class Mproxy{
 		switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
 				$res =  $this->get($url,$cookieRaw,$headers, $opts);
-				print_r($headers);
-				print_r($opts);
-				print_r($url);
-				print_r($res);exit;
 				if($res['httpcode']==301 || $res['httpcode']==302){
 					$matches = array();
 					preg_match('/(Location: )(.*)/i',$res['header'],$matches);
