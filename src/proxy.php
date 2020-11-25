@@ -9,6 +9,11 @@ $mp = new Mproxy();
 // echo $_SERVER['HTTP_X_URL'];exit;
 // print_r($_SERVER);
 
+//-- 압축 출력
+ob_end_clean();
+ob_start("ob_gzhandler");
+
+
 //-- 타임아웃 설정
 if(isset($_SERVER['HTTP_X_CONN_TIMEOUT']) && is_numeric($_SERVER['HTTP_X_CONN_TIMEOUT'])){ // 요청 해더 값 체크
 	$mp->conn_timeout = $_SERVER['HTTP_X_CONN_TIMEOUT'];

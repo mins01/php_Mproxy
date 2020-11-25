@@ -25,3 +25,11 @@ if (!function_exists('getallheaders'))
 		return emu_getallheaders();
 	}
 }
+
+if (!function_exists('gzdecode') && function_exists('gzinflate'))
+{
+	function gzdecode($data)
+	{
+	   return gzinflate(substr($data,10,-8));
+	}
+}
