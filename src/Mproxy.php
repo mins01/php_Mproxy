@@ -72,8 +72,17 @@ class Mproxy{
 		}
 		// $headers = array();
 		$headers['Content-Length'] = strlen($postRaw);
-		unset($headers['Accept-Encoding']); //압축처리 등을 안할려면 주석을 풀어라.
+		// unset($headers['Accept-Encoding']); //압축처리 등을 안할려면 주석을 풀어라.
 		// $headers['Host'] = parse_url($url,PHP_URL_HOST); //자동 처리됨
+
+		if(function_exists('gzdecode')){
+			$headers['Accept-Encoding'] = 'gzip';
+		}else if(function_exists('gzuncompress')){
+			$headers['Accept-Encoding'] = 'deflate'; //네이버와 구글에선 줘도 동작 안하네
+		}else{
+			unset($headers['Accept-Encoding']);
+		}
+		// print_r($headers);
 
 		$cookieRaw = stripslashes($this->http_build_cookie($this->stripslashesForArray($_COOKIE)));
 
@@ -95,6 +104,7 @@ class Mproxy{
 		switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
 				$res =  $this->get($url,$cookieRaw,$headers, $opts);
+				// print_r($res);exit;
 				if($res['httpcode']==301 || $res['httpcode']==302){
 					$matches = array();
 					preg_match('/(Location: )(.*)/i',$res['header'],$matches);
@@ -125,8 +135,7 @@ class Mproxy{
 	* $cookieRaw : xxx=yyy; zzz=aaa;  형식
 	* $opt : CURL의 curl_setopt 설정, 설정값이 있다면 덮어 씌운다.
 	*/
-	function getContent($url,$postRaw=null,$cookieRaw=null,$headers=array(), $opts = array())
-	{
+	function getContent($url,$postRaw=null,$cookieRaw=null,$headers=array(), $opts = array()){
 		$fp = null;
 		$result = array();
 		$result['header'] = '';
@@ -294,8 +303,17 @@ class Mproxy{
 			header($v);
 			//echo $v."\n<br>";
 		}
-		$body = $result['body'];
-		echo $body."\r\n"."\r\n";
+		$matches = array();
+		preg_match('/(?:Content-Encoding: )(.*)/i',$result['header'],$matches);
+		$contentEncoding = isset($matches[1])?trim($matches[1]):'';
+		if($contentEncoding=='gzip'){
+			echo gzdecode($result['body']);
+		}else if($contentEncoding=='deflate'){
+			echo gzuncompress($result['body']);
+		}else{
+			echo $result['body'];
+		}
+		echo "\r\n\r\n";
 		return $result;
 	}
 }
