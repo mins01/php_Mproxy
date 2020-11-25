@@ -58,8 +58,9 @@ class Mproxy{
 	function proxy($url){
 
 		$headers=getallheaders();
-		// print_r($headers);
+		// print_r($headers);exit;
 		//print_r($_SERVER);
+		unset($headers['X-Url'],$headers['X-Conn-Timeout'],$headers['X-Exec-Timeout']); // 프록시용 불필요 해더 삭제
 		if(!isset($headers['Content-Type'])){
 			$postRaw = $this->getRequestBody();
 		}elseif($headers['Content-Type']=='application/x-www-form-urlencoded'){
@@ -221,7 +222,7 @@ class Mproxy{
 
 
 		$data = curl_exec($conn);
-		//echo ($data);		exit;
+		// echo ($data);		exit;
 		$split_result = explode("\r\n\r\n", $data, 2);
 		$result['header'] = isset($split_result[0])?$split_result[0]:'';
 		$result['body'] = isset($split_result[1])?$split_result[1]:'';
