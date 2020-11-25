@@ -72,7 +72,8 @@ class Mproxy{
 		}
 		// $headers = array();
 		$headers['Content-Length'] = strlen($postRaw);
-		// unset($headers['Accept-Encoding']); //압축처리 등을 안할려면 주석을 풀어라.
+		unset($headers['Accept-Encoding']); //압축처리 등을 안할려면 주석을 풀어라.
+		// $headers['Host'] = parse_url($url,PHP_URL_HOST); //자동 처리됨
 
 		$cookieRaw = stripslashes($this->http_build_cookie($this->stripslashesForArray($_COOKIE)));
 
@@ -87,13 +88,17 @@ class Mproxy{
 		}else{
 			$opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_1_0; //HTTP 1.0 사용
 		}
-		$opts[CURLOPT_FAILONERROR] = false;
+		// $opts[CURLOPT_FAILONERROR] = false;
 		//exit;
 		//$opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_1_0; //HTTP 1.0 사용 //테스트용
 		$res = null;
 		switch($_SERVER['REQUEST_METHOD']){
 			case 'GET':
 				$res =  $this->get($url,$cookieRaw,$headers, $opts);
+				print_r($headers);
+				print_r($opts);
+				print_r($url);
+				print_r($res);exit;
 				if($res['httpcode']==301 || $res['httpcode']==302){
 					$matches = array();
 					preg_match('/(Location: )(.*)/i',$res['header'],$matches);
@@ -143,9 +148,9 @@ class Mproxy{
 		$exec_timeout	 =	$this->exec_timeout;
 
 		//--- Host빼오기
-		$ts = parse_url($url);
-
-		$headers['Host'] = $ts['host']; //목적지 URL을 기준으로 Host 변경
+		$headers['Host'] = parse_url($url,PHP_URL_HOST); //목적지 URL을 기준으로 Host 변경
+		// $ts = parse_url($url);
+		// $headers['Host'] = $ts['host'];
 
 		//--- 수동 해더 설정
 		$c_headers = array();
@@ -165,6 +170,7 @@ class Mproxy{
 		$c_headers[] = 'X-Forwarded-Server: '.(isset($_SERVER['SERVER_ADDR'][0])?$_SERVER['SERVER_ADDR']:'CLI'); //프록시서버 아이피
 		$c_headers[] = 'Expect:';//불필요 HTTP코드 제외 (http code 100 같은것)
 		//$c_headers[] = "\r\n";
+		// print_r($c_headers);exit;
 		curl_setopt($conn, CURLOPT_HTTPHEADER, $c_headers);
 		//print_r($url);
 		//print_r($c_headers);
