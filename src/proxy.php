@@ -2,7 +2,6 @@
 /**
 * 프록시 동작 파일
 */
-require('lib_Mproxy.php');
 require('Mproxy.php');
 $mp = new Mproxy();
 

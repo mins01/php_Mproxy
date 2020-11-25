@@ -6,6 +6,9 @@
 * PHP5 이상 지원
 * https://github.com/mins01/php_Mproxy
 */
+
+require_once(dirname(__FILE__).'/lib_Mproxy.php');
+
 class Mproxy{
 	public $conn_timeout = 5; //연결시간 타임아웃
 	public $exec_timeout = 5; //실행시간 타임아웃
