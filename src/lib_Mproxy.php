@@ -5,6 +5,7 @@ if (!function_exists('getallheaders'))
 {
 	function getallheaders()  //아파치가 아닌경우 이 함수가 없다.
 	{
+		$headers = array();
 		foreach ($_SERVER as $name => $value)
 		{
 			if (substr($name, 0, 5) == 'HTTP_')

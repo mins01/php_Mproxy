@@ -38,6 +38,7 @@ class Mproxy{
 		return implode('; ',$ts);
 	}
 	function stripslashesForArray($arr){
+		if(!function_exists("get_magic_quotes_gpc")){return $arr;} //for php 8.0
 		if(!get_magic_quotes_gpc()){return $arr;}
 
 		foreach ($arr as $k => $v) {
@@ -95,7 +96,7 @@ class Mproxy{
 		// $opts[CURLOPT_FOLLOWLOCATION]=true;
 		// $opts[CURLOPT_AUTOREFERER]=true;
 
-		if($_SERVER['SERVER_PROTOCOL']=='HTTP/1.1'){
+		if(isset($_SERVER['SERVER_PROTOCOL']) && $_SERVER['SERVER_PROTOCOL']=='HTTP/1.1'){
 			$opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_1_1; //HTTP 1.1 사용
 		}else{
 			$opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_1_0; //HTTP 1.0 사용
@@ -104,7 +105,7 @@ class Mproxy{
 		//exit;
 		//$opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_1_0; //HTTP 1.0 사용 //테스트용
 		$res = null;
-		switch($_SERVER['REQUEST_METHOD']){
+		switch(isset($_SERVER['REQUEST_METHOD'])?$_SERVER['REQUEST_METHOD']:NULL){
 			case 'GET':
 				$res =  $this->get($url,$cookieRaw,$headers, $opts);
 				// print_r($res);exit;
