@@ -1,4 +1,4 @@
-<?
+<?php
 //유틸성 함수 모움
 
 if (!function_exists('getallheaders'))
