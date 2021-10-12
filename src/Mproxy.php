@@ -38,8 +38,12 @@ class Mproxy{
 		return implode('; ',$ts);
 	}
 	function stripslashesForArray($arr){
-		if(!function_exists("get_magic_quotes_gpc")){return $arr;} //for php 8.0
-		if(!get_magic_quotes_gpc()){return $arr;}
+		try{
+			if(!function_exists("get_magic_quotes_gpc")){return $arr;} //for php 8.0
+			if(!get_magic_quotes_gpc()){return $arr;}
+		}catch(Exception $e){
+			return $arr;
+		}
 
 		foreach ($arr as $k => $v) {
 			$nk = stripslashes($k);
