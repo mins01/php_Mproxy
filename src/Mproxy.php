@@ -38,12 +38,9 @@ class Mproxy{
 		return implode('; ',$ts);
 	}
 	function stripslashesForArray($arr){
-		try{
-			if(!function_exists("get_magic_quotes_gpc")){return $arr;} //for php 8.0
-			if(!get_magic_quotes_gpc()){return $arr;}
-		}catch(Exception $e){
-			return $arr;
-		}
+		if (version_compare(PHP_VERSION, '7.4.0') >= 0) {return $arr; } //7.4 부터는 사용하지 않도록 한다.
+		if(!function_exists("get_magic_quotes_gpc")){return $arr;} //for php 8.0
+		if(!get_magic_quotes_gpc()){return $arr;}
 
 		foreach ($arr as $k => $v) {
 			$nk = stripslashes($k);

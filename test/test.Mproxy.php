@@ -1,4 +1,5 @@
 <?
+error_reporting(E_ALL);
 // require('../src/lib_Mproxy.php');
 require('../src/Mproxy.php');
 $mp = new Mproxy();
